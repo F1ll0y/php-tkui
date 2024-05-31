@@ -9,6 +9,9 @@ namespace Tkui;
  */
 interface WindowManager
 {
+    public function setOption(string $attrib, string $value): self;
+    public function setConfigure(string $attribute, mixed $value = null): self;
+
     /**
      * Sets the window title.
      */
@@ -66,7 +69,7 @@ interface WindowManager
      *
      * @param mixed $value Depending on attribute.
      */
-    public function setAttribute(string $attribute, $value): self;
+    public function setAttribute(string $attribute, ?string $value = null): self;
 
     /**
      * Gets platform specific attribute associated with the window.

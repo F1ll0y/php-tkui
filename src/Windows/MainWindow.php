@@ -20,6 +20,16 @@ class MainWindow extends BaseWindow
         parent::__construct($title);
     }
 
+    public function setBackground(string $color)
+    {
+        $this->getWindowManager()->setConfigure("background", $color);
+    }
+
+    public function setBorderWidth(int $width)
+    {
+        $this->getWindowManager()->setConfigure("borderwidth", $width);
+    }
+
     /**
      * @inheritdoc
      */

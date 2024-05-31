@@ -115,7 +115,7 @@ class Interp
             for ($i = 1; $i < $objc; $i ++) {
                 $params[] = $this->tcl->getString($objv[$i]);
             }
-            $result = $callback(...$params);
+            $result = $callback($params);
             if ($result !== null) {
                 if (is_object($result)) {
                     $this->warning('Expected only primitive types but got object !', [

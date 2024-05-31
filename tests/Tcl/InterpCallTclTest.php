@@ -15,13 +15,11 @@ use Tkui\Tests\TestCase;
 class InterpCallTclTest extends TestCase
 {
     private CData $cdata;
-    private FFI $ffi;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->ffi = FFI::cdef();
-        $this->cdata = $this->ffi->new('int');
+        $this->cdata = FFI::new('int');
     }
 
     /** @test */
@@ -32,7 +30,7 @@ class InterpCallTclTest extends TestCase
         $tclMock->expects($this->once())
             ->method('createStringObj')
             ->with('foo')
-            ->willReturn($this->ffi->new('char*'));
+            ->willReturn(FFI::new('char*'));
 
         $interp = new Interp($tclMock, $this->cdata);
         $interp->callTcl('createStringObj', 'foo');
@@ -46,7 +44,7 @@ class InterpCallTclTest extends TestCase
 
         $interp = new Interp($tclMock, $this->cdata);
 
-        $testObj = $this->ffi->new('char*');
+        $testObj = FFI::new('char*');
 
         $tclMock->expects($this->once())
             ->method('getIntFromObj')

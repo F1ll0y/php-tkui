@@ -17,8 +17,9 @@ class TkWindowManager implements WindowManager
 {
     public function __construct(
         private readonly Evaluator $eval,
-        private readonly Window $window,
-    ) {
+        private readonly Window    $window,
+    )
+    {
     }
 
     /**
@@ -29,6 +30,16 @@ class TkWindowManager implements WindowManager
     public function setTitle(string $title): self
     {
         return $this->setWm('title', Tcl::quoteString($title));
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @link https://www.tcl.tk/man/tcl8.6/TkCmd/wm.htm#M63
+     */
+    public function setOption(string $attrib, string $value): self
+    {
+        return $this->setWm('option', $attrib, Tcl::quoteString($value));
     }
 
     /**
@@ -48,7 +59,7 @@ class TkWindowManager implements WindowManager
      */
     public function getState(): WMState
     {
-        return WMState::from((string) $this->getWm('state'));
+        return WMState::from((string)$this->getWm('state'));
     }
 
     /**
@@ -88,7 +99,7 @@ class TkWindowManager implements WindowManager
      */
     public function getMaxSize(): array
     {
-        return array_map(fn ($value) => (int) $value, explode(' ', $this->getWm('maxsize'), 2));
+        return array_map(fn($value) => (int)$value, explode(' ', $this->getWm('maxsize'), 2));
     }
 
     /**
@@ -108,7 +119,7 @@ class TkWindowManager implements WindowManager
      */
     public function getMinSize(): array
     {
-        return array_map(fn ($value) => (int) $value, explode(' ', $this->getWm('minsize'), 2));
+        return array_map(fn($value) => (int)$value, explode(' ', $this->getWm('minsize'), 2));
     }
 
     /**
@@ -116,9 +127,20 @@ class TkWindowManager implements WindowManager
      *
      * @link https://www.tcl.tk/man/tcl8.6/TkCmd/wm.htm#M8
      */
-    public function setAttribute(string $attribute, $value): self
+    public function setAttribute(string $attribute, mixed $value = null): self
     {
         $this->eval->tclEval('wm', 'attributes', $this->window->path(), Tcl::strToOption($attribute), $value);
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @link https://www.tcl.tk/man/tcl8.6/TkCmd/wm.htm#M8
+     */
+    public function setConfigure(string $attribute, mixed $value = null): self
+    {
+        $this->eval->tclEval($this->window->path(), 'configure', Tcl::strToOption($attribute), $value);
         return $this;
     }
 
@@ -191,7 +213,7 @@ class TkWindowManager implements WindowManager
      */
     public function getOverrideRedirect(): bool
     {
-        return (bool) $this->getWm('overrideredirect');
+        return (bool)$this->getWm('overrideredirect');
     }
 
     /**

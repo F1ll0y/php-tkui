@@ -51,7 +51,12 @@ class TkBindings implements Bindings
         } else {
             $tkEvent = $event;
         }
-        $script = sprintf('bind %s %s %s', $tag, $tkEvent, $command);
+        if($tag === "."){
+            $script = sprintf('bind %s %s %s', $tag, $tkEvent, "{" . $command . " %x %y %w %h}");
+        } else {
+            // canvas pointer coords
+            $script = sprintf('bind %s %s %s', $tag, $tkEvent, "{" . $command . " \"[%W canvasx %x]\" \"[%W canvasy %y]\"}");
+        }
         $this->interp->eval($script);
         $this->callbacks[$tag][$event] = $callback;
     }

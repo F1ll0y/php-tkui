@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Tkui\TclTk;
 
@@ -9,7 +7,6 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Tkui\AppFactory;
 use Tkui\Environment;
-use Tkui\Exceptions\UnsupportedOSException;
 use Tkui\System\FFILoader;
 use Tkui\System\OS;
 use Tkui\System\OSDetection;
@@ -27,12 +24,11 @@ class TkAppFactory implements AppFactory
     private readonly OS $os;
 
     /**
-     * @param string $appName The application name (or class name in some desktop environments).
-     * @param OS|null $os The operation system instance or detection will be used.
-     * @throws UnsupportedOSException
+     * @param string  $appName The application name (or class name in some desktop environments).
+     * @param OS|null $os      The operation system instance or detection will be used.
      */
     public function __construct(
-        private readonly string $appName,
+        private string $appName,
         ?OS $os = null
     ) {
         $this->os = $os ?? OSDetection::detect();
@@ -102,6 +98,7 @@ class TkAppFactory implements AppFactory
     protected function createTcl(string $header, string $sharedLib): Tcl
     {
         $loader = new FFILoader($header, $sharedLib);
+				
         return new Tcl($loader->load());
     }
 

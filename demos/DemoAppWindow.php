@@ -8,7 +8,7 @@ use Tkui\Windows\MainWindow;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-class DemoAppWindow extends MainWindow
+abstract class DemoAppWindow extends MainWindow
 {
     const APP_NAME = 'PhpUI Demo';
 
@@ -22,7 +22,13 @@ class DemoAppWindow extends MainWindow
         parent::__construct($this->app, $title);
         $this->imageDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'icons' . DIRECTORY_SEPARATOR;
         $this->setIcon();
+
+        $this->bind("Configure", function($params){
+           $this->windowResized($params[0], $params[1], $params[2], $params[3]);
+        });
     }
+
+    abstract protected function windowResized($x, $y, $width, $height): void;
 
     private function setIcon(): void
     {

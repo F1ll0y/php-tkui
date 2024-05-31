@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tkui\System;
 
-final class Windows extends OS
+class Windows extends OS
 {
     public function defaultThemeName(): string
     {

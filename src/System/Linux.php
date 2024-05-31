@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tkui\System;
 
-final class Linux extends OS
+class Linux extends OS
 {
     public function defaultThemeName(): string
     {

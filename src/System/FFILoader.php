@@ -5,15 +5,15 @@ namespace Tkui\System;
 use FFI;
 use RuntimeException;
 
-readonly class FFILoader
+class FFILoader
 {
     /**
      * @param string $header    The C header file.
      * @param string $sharedLib System shared library.
      */
     public function __construct(
-        public string $header,
-        public string $sharedLib,
+        public readonly string $header,
+        public readonly string $sharedLib,
     ) {
     }
 
