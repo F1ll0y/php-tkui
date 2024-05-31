@@ -1,10 +1,9 @@
 {
-    "name": "f1ll0y/tkui",
+    "name": "f1ll0y/php-tkui",
     "description": "Create desktop applications using Tk gui toolkit",
     "keywords": [
         "gui", "ui", "desktop", "toolkit", "tcltk", "tk", "widget"
     ],
-	"version": "0.3",
     "type": "library",
     "license": "MIT",
     "authors": [

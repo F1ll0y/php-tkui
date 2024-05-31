@@ -2,3 +2,14 @@
 .idea/
 .phpunit.result.cache
 .env
+/composer.phar
+/src/TclTk/headers
+/tools/bin
+/tools/lib/dde1.4
+/tools/lib/reg1.3
+/tools/lib/tcl8.6
+/tools/lib/tcl8/8.4
+/tools/lib/tcl8/8.5
+/tools/lib/tcl8/8.6
+/tools/lib/tk8.6
+/tools
