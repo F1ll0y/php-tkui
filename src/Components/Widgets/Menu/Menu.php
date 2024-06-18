@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tkui\Widgets\Menu;
+namespace Tkui\Components\Widgets\Menu;
 
 use Tkui\Color;
 use Tkui\Options;

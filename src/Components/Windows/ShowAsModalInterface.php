@@ -10,5 +10,5 @@ interface ShowAsModalInterface
     /**
      * @return mixed The modal result.
      */
-    public function showModal(): mixed;
+    public function showModal(): void;
 }

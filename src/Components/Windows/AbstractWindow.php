@@ -2,20 +2,10 @@
 
 namespace Tkui\Components\Windows;
 
-use Tkui\Application;
+
 use Tkui\ApplicationInterface;
-use Tkui\Layouts\Grid;
-use Tkui\Layouts\LayoutManager;
-use Tkui\Layouts\Pack;
-use Tkui\Layouts\Place;
-use Tkui\Options;
-use Tkui\TclTk\TclOptions;
-use Tkui\TclTk\TkWindowManagerInterface;
-use Tkui\Widgets\Container;
-use Tkui\Widgets\Menu\Menu;
-use Tkui\Widgets\Widget;
+use Tkui\Interpreter\TclTk\TkFontOptions;
 use Tkui\WindowManagerInterface;
-use Tkui\Windows\Window;
 
 /**
  * Shares the features for window implementations.
@@ -57,7 +47,7 @@ abstract class AbstractWindow implements WindowInterface
 
     protected function initOptions(): Options
     {
-        return new TclOptions([
+        return new TkFontOptions([
             'title' => '',
             'state' => '',
         ]);
@@ -203,7 +193,7 @@ abstract class AbstractWindow implements WindowInterface
     /**
      * @inheritdoc
      */
-    public function setMenu(Menu $menu): Window
+    public function setMenu(\Tkui\Components\Widgets\Menu\Menu $menu): Window
     {
         $this->getEval()->tclEval($this->path(), 'configure', '-menu', $menu->path());
         return $this;
@@ -212,7 +202,7 @@ abstract class AbstractWindow implements WindowInterface
     /**
      * @inheritdoc
      */
-    public function showModal()
+    public function showModal(): void
     {
         $this->getEval()->tclEval('grab', $this->path());
     }
