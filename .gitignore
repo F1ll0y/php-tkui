@@ -3,7 +3,7 @@
 .phpunit.result.cache
 .env
 /composer.phar
-/src/TclTk/headers
+/src/old_new/TclTk/headers
 /tools/bin
 /tools/lib/dde1.4
 /tools/lib/reg1.3

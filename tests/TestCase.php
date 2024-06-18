@@ -6,7 +6,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase as FrameworkTestCase;
 use Tkui\Application;
-use Tkui\Evaluator;
+use Tkui\EvaluatorInterface;
 use Tkui\Windows\Window;
 
 class TestCase extends FrameworkTestCase
@@ -32,7 +32,7 @@ class TestCase extends FrameworkTestCase
 
     protected function createEvalMock()
     {
-        return $this->createMock(Evaluator::class);
+        return $this->createMock(EvaluatorInterface::class);
     }
 
     protected function createWindowStub(): Window

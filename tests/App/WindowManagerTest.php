@@ -4,7 +4,7 @@ namespace Tkui\Tests\App;
 
 use PHPUnit\Framework\MockObject\Stub;
 use Tkui\TclTk\Interp;
-use Tkui\TclTk\TkImage;
+use Tkui\TclTk\TkImageInterface;
 use Tkui\Tests\TestCase;
 use Tkui\Windows\MainWindow;
 use Tkui\WMState;
@@ -195,9 +195,9 @@ class WindowManagerTest extends TestCase
         (new MainWindow($this->app, 'Icon Test'))
             ->getWindowManager()
             ->setIcon(
-                new TkImage($interp, 'image1'),
-                new TkImage($interp, 'image2'),
-                new TkImage($interp, 'image3')
+                new TkImageInterface($interp, 'image1'),
+                new TkImageInterface($interp, 'image2'),
+                new TkImageInterface($interp, 'image3')
             );
     }
 }

@@ -2,13 +2,13 @@
 
 namespace Tkui\Tests\Widgets;
 
-use Tkui\Image;
+use Tkui\ImageInterface;
 use Tkui\Tests\TestCase;
 use Tkui\Widgets\Text\Range;
 use Tkui\Widgets\Text\Text;
 use Tkui\Widgets\Text\TextIndex;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tkui\TclTk\TkImage;
+use Tkui\TclTk\TkImageInterface;
 
 class TextTest extends TestCase
 {
@@ -174,10 +174,10 @@ class TextTest extends TestCase
             [$this->checkWidget('.t'), 'image', 'create', '5.12', '-image', 'i0'],
         ]);
 
-        /** @var Image|MockObject */
+        /** @var ImageInterface|MockObject */
         // FIXME: Since Image doesn't have Stringable TkImage is used here, after switching
         // to PHP8 it must be changed to Image interface instead of TkImage.
-        $image = $this->createMock(TkImage::class);
+        $image = $this->createMock(TkImageInterface::class);
         $image->expects($this->once())
               ->method('__toString')
               ->willReturn('i0')

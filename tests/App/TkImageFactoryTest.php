@@ -3,7 +3,7 @@
 namespace Tkui\Tests\App;
 
 use Tkui\TclTk\Interp;
-use Tkui\TclTk\TkImageFactory;
+use Tkui\TclTk\TkImageFactoryInterface;
 use Tkui\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -19,7 +19,7 @@ class TkImageFactoryTest extends TestCase
                ->with('image create photo -file {test.png}')
         ;
 
-        $f = new TkImageFactory($interp);
+        $f = new TkImageFactoryInterface($interp);
         $f->createFromFile('test.png');
     }
 
@@ -36,7 +36,7 @@ class TkImageFactoryTest extends TestCase
                ->with('image create photo -data {' . $encoded . '}')
         ;
 
-        $f = new TkImageFactory($interp);
+        $f = new TkImageFactoryInterface($interp);
         $f->createFromBinary($binary);
     }
 }

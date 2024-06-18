@@ -3,7 +3,7 @@
 namespace Tkui\Tests\Dialogs;
 
 use Tkui\Dialogs\FontDialog;
-use Tkui\FontManager;
+use Tkui\FontManagerInterface;
 use Tkui\Tests\TestCase;
 
 class FontDialogTest extends TestCase
@@ -14,7 +14,7 @@ class FontDialogTest extends TestCase
         $this->eval->expects($this->once())
             ->method('registerCallback');
 
-        $fm = $this->createMock(FontManager::class);
+        $fm = $this->createMock(FontManagerInterface::class);
 
         new FontDialog($this->createWindowStub(), $fm);
     }
@@ -31,7 +31,7 @@ class FontDialogTest extends TestCase
             ->method('registerCallback')
             ->willReturn('test_callback');
 
-        $fm = $this->createMock(FontManager::class);
+        $fm = $this->createMock(FontManagerInterface::class);
 
         (new FontDialog($this->createWindowStub(), $fm))->showModal();
     }

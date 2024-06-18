@@ -7,7 +7,7 @@ use RuntimeException;
 /**
  * .env file environment loader.
  */
-final class DotEnv implements Environment
+final readonly class DotEnv implements EnvironmentInterface
 {
 
     /**
@@ -15,8 +15,8 @@ final class DotEnv implements Environment
      * @param string $filename The env file base name.
      */
     public function __construct(
-        public readonly string $path,
-        public readonly string $filename = '.env',
+        public string $path,
+        public string $filename = '.env',
     ) { }
 
     /**

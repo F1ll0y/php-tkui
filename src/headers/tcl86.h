@@ -51,6 +51,7 @@ int Tcl_Init(Tcl_Interp *interp);
 int Tcl_GetErrorLine(Tcl_Interp *interp);
 int Tcl_GetErrno(void);
 
+int Tcl_DoOneEvent(int flags);
 int Tcl_Eval(Tcl_Interp *interp, const char *script);
 int Tcl_EvalObj(Tcl_Interp *interp, Tcl_Obj *objPtr);
 
