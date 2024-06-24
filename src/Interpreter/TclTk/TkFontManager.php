@@ -2,8 +2,8 @@
 
 namespace Tkui\Interpreter\TclTk;
 
-use Tkui\Font;
-use Tkui\FontManagerInterface;
+use Tkui\Interfaces\FontManagerInterface;
+use Tkui\Models\Font;
 
 /**
  * Tk Font Manager.
@@ -15,11 +15,11 @@ class TkFontManager implements FontManagerInterface
     public const TK_DEFAULT_FONT = 'TkDefaultFont';
     public const TK_FIXED_FONT = 'TkFixedFont';
 
-    private Interp $interp;
+    private Interpreter $interpreter;
 
-    public function __construct(Interp $interp)
+    public function __construct(Interpreter $interpreter)
     {
-        $this->interp = $interp;
+        $this->interpreter = $interpreter;
     }
 
     /**
@@ -28,8 +28,8 @@ class TkFontManager implements FontManagerInterface
     public function getTextWidth(string $text, Font $font): int
     {
         // TODO: TkApplication::encloseArg() must be used.
-        $this->interp->eval(sprintf('font metrics %s %s', (string) $font, Tcl::quoteString($text)));
-        return (int) $this->interp->getStringResult();
+        $this->interpreter->eval(sprintf('font metrics %s %s', (string) $font, Tcl::quoteString($text)));
+        return (int) $this->interpreter->getStringResult();
     }
 
     /**
@@ -53,8 +53,8 @@ class TkFontManager implements FontManagerInterface
      */
     protected function createFontFromTclEvalResult(string $name): TkFont
     {
-        $this->interp->eval("font actual $name");
-        $fontOptions = TkFontOptions::createFromList($this->interp->getListResult());
+        $this->interpreter->eval("font actual $name");
+        $fontOptions = TkFontOptions::createFromList($this->interpreter->getListResult());
         return TkFont::createFromFontOptions($fontOptions);
     }
 
@@ -63,8 +63,8 @@ class TkFontManager implements FontManagerInterface
      */
     public function getFontNames(): array
     {
-        $this->interp->eval('font families');
-        return $this->interp->getListResult();
+        $this->interpreter->eval('font families');
+        return $this->interpreter->getListResult();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Tkui;
 
 use RuntimeException;
+use Tkui\Interfaces\EnvironmentInterface;
 
 /**
  * .env file environment loader.

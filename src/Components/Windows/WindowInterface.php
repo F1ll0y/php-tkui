@@ -3,6 +3,7 @@
 namespace Tkui\Components\Windows;
 
 use Tkui\Components\ContainerInterface;
+use Tkui\WindowManagerInterface;
 
 /**
  * The application window.
@@ -26,7 +27,7 @@ interface WindowInterface extends ContainerInterface, ShowAsModalInterface
      *
      * Will be appeared as a menu bar in top of the window.
      */
-    public function setMenu(Menu $menu): self;
+    //public function setMenu(Menu $menu): self;
 
     public function setPos(int $x, int $y): void;
 

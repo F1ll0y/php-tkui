@@ -2,7 +2,8 @@
 
 namespace Tkui\Interpreter\TclTk;
 
-use Tkui\ImageInterface;
+
+use Tkui\Interfaces\ImageInterface;
 
 /**
  * Tk implementation of Image.
@@ -10,8 +11,8 @@ use Tkui\ImageInterface;
 class TkImageInterface implements ImageInterface
 {
     public function __construct(
-        private readonly Interp $interp,
-        public readonly string $id,
+        private readonly Interpreter $interp,
+        public readonly string       $id,
     ) {
     }
 

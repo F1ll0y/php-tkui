@@ -2,15 +2,16 @@
 
 namespace Tkui\Interpreter\TclTk;
 
-use Tkui\BindingsInterface;
-use Tkui\Widgets\Widget;
 
-class TkBindings implements BindingsInterface
+use Tkui\Components\WidgetInterface;
+use Tkui\Interfaces\BindingsInterface;
+
+class TkBindingsInterface implements BindingsInterface
 {
-    private Interp $interp;
+    private Interpreter $interp;
     private array $callbacks = [];
 
-    public function __construct(Interp $interp)
+    public function __construct(Interpreter $interp)
     {
         $this->interp = $interp;
     }
@@ -29,7 +30,7 @@ class TkBindings implements BindingsInterface
      *
      * @link https://www.tcl.tk/man/tcl8.6/TkCmd/bind.htm
      */
-    public function bindWidget(Widget $widget, string $event, callable $callback): void
+    public function bindWidget(WidgetInterface $widget, string $event, callable $callback): void
     {
         $tag = $widget->path();
         $this->tkBind($tag, $event, $callback);
@@ -38,7 +39,7 @@ class TkBindings implements BindingsInterface
     /**
      * @inheritdoc
      */
-    public function unbindWidget(Widget $widget, string $event): void
+    public function unbindWidget(WidgetInterface $widget, string $event): void
     {
         $this->deleteCallback($widget->path(), $event);
     }

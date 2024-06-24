@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
-namespace Tkui;
+namespace Tkui\Interfaces;
+
 
 /**
  * The application instance.

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Tkui;
+namespace Tkui\Interfaces;
 
 use Stringable;
-use Tkui\TclTk\Variable;
+use Tkui\Interpreter\TclTk\Variable;
 use Tkui\Widgets\Widget;
 
 /**

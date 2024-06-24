@@ -3,9 +3,10 @@
 namespace Tkui\Components\Windows;
 
 
-use Tkui\ApplicationInterface;
+use Tkui\Interfaces\ApplicationInterface;
+use Tkui\Interfaces\WindowManagerInterface;
 use Tkui\Interpreter\TclTk\TkFontOptions;
-use Tkui\WindowManagerInterface;
+use Tkui\Options;
 
 /**
  * Shares the features for window implementations.

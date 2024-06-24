@@ -2,7 +2,8 @@
 
 namespace Tkui\Interpreter\TclTk;
 
-use Tkui\ThemeManagerInterface;
+
+use Tkui\Interfaces\ThemeManagerInterface;
 
 /**
  * Implementation of Ttk style themes.
@@ -12,7 +13,7 @@ use Tkui\ThemeManagerInterface;
 class TkThemeManagerInterface implements ThemeManagerInterface
 {
     public function __construct(
-        private readonly Interp $interp,
+        private readonly Interpreter $interp,
     ) {
     }
 

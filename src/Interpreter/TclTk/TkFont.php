@@ -2,7 +2,8 @@
 
 namespace Tkui\Interpreter\TclTk;
 
-use Tkui\Font;
+
+use Tkui\Models\Font;
 
 /**
  * Implementation of Tk Font.

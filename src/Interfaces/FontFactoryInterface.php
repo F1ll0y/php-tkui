@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tkui;
+namespace Tkui\Interfaces;
+
+use Tkui\Models\Font;
 
 interface FontFactoryInterface
 {

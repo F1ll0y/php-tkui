@@ -2,8 +2,9 @@
 
 namespace Tkui\Interpreter\TclTk;
 
-use Tkui\ImageInterface;
-use Tkui\ImageFactoryInterface;
+
+use Tkui\Interfaces\ImageFactoryInterface;
+use Tkui\Interfaces\ImageInterface;
 
 /**
  * Tk implementation of Image Factory.
@@ -11,7 +12,7 @@ use Tkui\ImageFactoryInterface;
 class TkImageFactoryInterface implements ImageFactoryInterface
 {
     public function __construct(
-        private readonly Interp $interp,
+        private readonly Interpreter $interp,
     ) {
     }
 

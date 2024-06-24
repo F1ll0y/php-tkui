@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Tkui;
+namespace Tkui\Interfaces;
 
-use Tkui\Widgets\Widget;
+use Tkui\Components\WidgetInterface;
 
 /**
  * Let you attach/detach widget bindings.
@@ -12,10 +12,10 @@ interface BindingsInterface
     /**
      * Attach the binding to the widget.
      */
-    public function bindWidget(Widget $widget, string $event, callable $callback): void;
+    public function bindWidget(WidgetInterface $widget, string $event, callable $callback): void;
 
     /**
      * Detach the widget binding.
      */
-    public function unbindWidget(Widget $widget, string $event): void;
+    public function unbindWidget(WidgetInterface $widget, string $event): void;
 }

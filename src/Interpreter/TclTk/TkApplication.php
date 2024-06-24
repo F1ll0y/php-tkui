@@ -3,25 +3,27 @@
 namespace Tkui\Interpreter\TclTk;
 
 use Stringable;
-use Tkui\Application;
-use Tkui\BindingsInterface;
-use Tkui\FontManagerInterface;
-use Tkui\ImageFactoryInterface;
-use Tkui\Support\WithLogger;
+use Tkui\Components\WidgetInterface;
+use Tkui\Interfaces\ApplicationInterface;
+use Tkui\Interfaces\BindingsInterface;
+use Tkui\Interfaces\FontManagerInterface;
+use Tkui\Interfaces\ImageFactoryInterface;
+use Tkui\Interfaces\ThemeManagerInterface;
 use Tkui\TclTk\Exceptions\TclException;
 use Tkui\TclTk\Exceptions\TclInterpException;
 use Tkui\TclTk\Exceptions\TkException;
+use Tkui\Traits\WithLogger;
 use Tkui\Widgets\Widget;
 
 /**
  * Main application.
  */
-class TkApplication implements Application
+class TkApplication implements ApplicationInterface
 {
     use WithLogger;
 
     private Tk $tk;
-    private Interp $interp;
+    private Interpreter $interpreter;
     private BindingsInterface $bindings;
     private ?TkThemeManagerInterface $themeManager;
     private TkFontManager $fontManager;
@@ -58,7 +60,7 @@ class TkApplication implements Application
     {
         $this->tk = $tk;
         $this->argv = $argv;
-        $this->interp = $tk->interp();
+        $this->interpreter = $tk->interp();
         $this->bindings = $this->createBindings();
         $this->themeManager = null;
         $this->fontManager = $this->createFontManager();
@@ -70,17 +72,17 @@ class TkApplication implements Application
 
     protected function createBindings(): BindingsInterface
     {
-        return new TkBindingsInterface($this->interp);
+        return new TkBindingsInterface($this->interpreter);
     }
 
     protected function createFontManager(): TkFontManager
     {
-        return new TkFontManager($this->interp);
+        return new TkFontManager($this->interpreter);
     }
 
     protected function createImageFactory(): TkImageFactoryInterface
     {
-        return new TkImageFactoryInterface($this->interp);
+        return new TkImageFactoryInterface($this->interpreter);
     }
 
     /**
@@ -93,9 +95,9 @@ class TkApplication implements Application
         // like this: tclCall($command, $method, ...$args)
         // and only $args must be quoted.
         $script = implode(' ', array_map(fn($arg) => $this->encloseArg($arg), $args));
-        $this->interp->eval($script);
+        $this->interpreter->eval($script);
 
-        return $this->interp->getStringResult();
+        return $this->interpreter->getStringResult();
     }
 
     /**
@@ -104,7 +106,7 @@ class TkApplication implements Application
     protected function initTtk(): void
     {
         try {
-            $this->interp->eval('package require Ttk');
+            $this->interpreter->eval('package require Ttk');
             $this->themeManager = $this->createThemeManager();
         } catch (TclInterpException $e) {
             // TODO: ttk must be required ?
@@ -115,7 +117,7 @@ class TkApplication implements Application
 
     protected function createThemeManager(): TkThemeManagerInterface
     {
-        return new TkThemeManagerInterface($this->interp);
+        return new TkThemeManagerInterface($this->interpreter);
     }
 
     /**
@@ -157,7 +159,7 @@ class TkApplication implements Application
     public function init(): void
     {
         $this->debug('app init');
-        $this->interp->init();
+        $this->interpreter->init();
         $this->setInterpArgv();
         $this->tk->init();
         $this->initTtk();
@@ -167,7 +169,7 @@ class TkApplication implements Application
     protected function setInterpArgv(): void
     {
         foreach ($this->argv as $arg => $value) {
-            $this->interp->argv()->append($arg, $value);
+            $this->interpreter->argv()->append($arg, $value);
         }
     }
 
@@ -204,7 +206,7 @@ class TkApplication implements Application
     /**
      * Sets the widget binding.
      */
-    public function bindWidget(Widget $widget, $event, $callback): void
+    public function bindWidget(WidgetInterface $widget, $event, $callback): void
     {
         $this->bindings->bindWidget($widget, $event, $callback);
     }
@@ -212,7 +214,7 @@ class TkApplication implements Application
     /**
      * Unbinds the event from the widget.
      */
-    public function unbindWidget(Widget $widget, $event): void
+    public function unbindWidget(WidgetInterface $widget, $event): void
     {
         $this->bindings->unbindWidget($widget, $event);
     }
@@ -225,7 +227,7 @@ class TkApplication implements Application
     /**
      * @throws TkException When ttk is not supported.
      */
-    public function getThemeManager(): TkThemeManagerInterface
+    public function getThemeManager(): ThemeManagerInterface
     {
         if ($this->hasTtk()) {
             return $this->themeManager;
@@ -235,7 +237,7 @@ class TkApplication implements Application
 
     protected function createCallbackHandler()
     {
-        $this->interp->createCommand(self::CALLBACK_HANDLER, function (...$args) {
+        $this->interpreter->createCommand(self::CALLBACK_HANDLER, function (...$args) {
             $path = array_shift($args);
             // TODO: check if arguments are empty ?
             [$callback, $widget] = $this->callbacks[$path];
@@ -250,7 +252,7 @@ class TkApplication implements Application
         if (!isset($this->vars[$index])) {
             // TODO: variable in namespace ?
             // TODO: generate an array index for access performance.
-            $this->vars[$index] = $this->interp->createVariable($index);
+            $this->vars[$index] = $this->interpreter->createVariable($index);
         }
         return $this->vars[$index];
     }

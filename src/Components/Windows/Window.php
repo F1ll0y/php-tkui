@@ -2,9 +2,7 @@
 
 namespace Tkui\Components\Windows;
 
-use Tkui\Application;
-use Tkui\ApplicationInterface;
-use Tkui\EvaluatorInterface;
+use Tkui\Interfaces\ApplicationInterface;
 use Tkui\Widgets\Container;
 use Tkui\Widgets\Widget;
 use Tkui\Windows\BaseWindow;

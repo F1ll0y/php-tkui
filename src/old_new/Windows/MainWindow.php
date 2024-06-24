@@ -1,0 +1,81 @@
+<?php declare(strict_types=1);
+
+namespace Tkui\Windows;
+
+use Tkui\Application;
+use Tkui\EvaluatorInterface;
+use Tkui\Widgets\Container;
+use Tkui\Widgets\Widget;
+
+/**
+ * The main application window implementation.
+ */
+class MainWindow extends BaseWindow
+{
+    private Application $app;
+
+    public function __construct(Application $app, string $title)
+    {
+        $this->app = $app;
+        parent::__construct($title);
+    }
+
+    public function setBackground(string $color)
+    {
+        $this->getWindowManager()->setConfigure("background", $color);
+    }
+
+    public function setBorderWidth(int $width)
+    {
+        $this->getWindowManager()->setConfigure("borderwidth", $width);
+    }
+
+    public function setPos(int $x, int $y): void
+    {
+        $this->getWindowManager()->setPos($x, $y);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function createWindow(): void
+    {
+        // Nothing to create. Main window is created automatically
+        // during Tk initialization.
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function id(): string
+    {
+        // The main window is single and don't need an id.
+        return '';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getEval(): EvaluatorInterface
+    {
+        return $this->app;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function parent(): Container
+    {
+        return $this;
+    }
+
+    public function bindWidget(Widget $widget, string $event, ?callable $callback): Container
+    {
+        if ($callback === null) {
+            $this->app->unbindWidget($widget, $event);
+        } else {
+            $this->app->bindWidget($widget, $event, $callback);
+        }
+        return $this;
+    }
+}

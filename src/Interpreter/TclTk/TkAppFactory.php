@@ -5,9 +5,9 @@ namespace Tkui\Interpreter\TclTk;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Tkui\AppFactory;
-use Tkui\AppFactoryInterface;
-use Tkui\EnvironmentInterface;
+use Tkui\Exceptions\UnsupportedOSException;
+use Tkui\Interfaces\AppFactoryInterface;
+use Tkui\Interfaces\EnvironmentInterface;
 use Tkui\System\FFILoader;
 use Tkui\System\OS;
 use Tkui\System\OSDetection;
@@ -25,8 +25,9 @@ class TkAppFactory implements AppFactoryInterface
     private readonly OS $os;
 
     /**
-     * @param string  $appName The application name (or class name in some desktop environments).
-     * @param OS|null $os      The operation system instance or detection will be used.
+     * @param string $appName The application name (or class name in some desktop environments).
+     * @param OS|null $os The operating system instance or detection will be used.
+     * @throws UnsupportedOSException
      */
     public function __construct(
         private string $appName,
@@ -39,7 +40,7 @@ class TkAppFactory implements AppFactoryInterface
 
     protected function getHeaderPath(string $file): string
     {
-        return dirname(__DIR__)
+        return dirname(__DIR__, 2)
             . DIRECTORY_SEPARATOR
             . 'headers'
             . DIRECTORY_SEPARATOR
@@ -61,22 +62,22 @@ class TkAppFactory implements AppFactoryInterface
             $libTk = $this->getDefaultTkLib();
         }
 
-        $interp = $this->createTcl(
+        $interpreter = $this->createTcl(
                 $env->getValue('TCL_HEADER', $this->defaultTclHeader),
                 $libTcl
             )
-            ->createInterp();
+            ->createInterpreter();
 
         if (($debug = (bool) $env->getValue('DEBUG'))) {
             $logger = $this->createLogger($env->getValue('DEBUG_LOG', 'php://stdout'));
         }
 
         if ($debug) {
-            $interp->setLogger($logger->withName('interp'));
+            $interpreter->setLogger($logger->withName('interpreter'));
         }
 
         $tk = $this->createTk(
-            $interp,
+            $interpreter,
             $env->getValue('TK_HEADER', $this->defaultTkHeader),
             $libTk
         );
@@ -103,7 +104,7 @@ class TkAppFactory implements AppFactoryInterface
         return new Tcl($loader->load());
     }
 
-    protected function createTk(Interp $tclInterp, string $header, string $sharedLib): Tk
+    protected function createTk(Interpreter $tclInterp, string $header, string $sharedLib): Tk
     {
         $loader = new FFILoader($header, $sharedLib);
         return new Tk($loader->load(), $tclInterp);
@@ -114,7 +115,7 @@ class TkAppFactory implements AppFactoryInterface
      */
     public function create(): TkApplication
     {
-        $interp = $this->createTcl(self::TCL_HEADER, $this->getDefaultTclLib())->createInterp();
+        $interp = $this->createTcl(self::TCL_HEADER, $this->getDefaultTclLib())->createInterpreter();
         $tk = $this->createTk($interp, self::TK_HEADER, $this->getDefaultTkLib());
         
         $app = $this->createTkApplication($tk, $this->appName);

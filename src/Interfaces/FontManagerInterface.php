@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Tkui;
+namespace Tkui\Interfaces;
+
+use Tkui\Models\Font;
 
 /**
  * Font manager.
